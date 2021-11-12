@@ -1,0 +1,66 @@
+version: "3"
+services:
+  # 数据库
+  redis:
+    image: redis:alpine
+    restart: always
+  mysql:
+    image: mysql
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: hollow
+      MYSQL_PASSWORD: zTCCY5Kaz3Hy
+      MYSQL_DATABASE: hollow
+    healthcheck:
+      test: '/usr/bin/mysql --user=hollow --password=zTCCY5Kaz3Hy --execute "SHOW DATABASES;"'
+      timeout: 10s
+      retries: 10
+
+  # 后端
+  backend-security:
+    build:
+      dockerfile: Dockerfile
+      context: ./docker/security
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ./config/config.yml
+        target: /app/config.yml
+        read_only: true
+      - ./geoip:/app/geoip
+  backend-services:
+    build:
+      dockerfile: Dockerfile
+      context: ./docker/services
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ./config/config.yml
+        target: /app/config.yml
+        read_only: true
+      - ./geoip:/app/geoip
+  backend-fallback:
+    build:
+      dockerfile: Dockerfile
+      context: ./docker/fallback
+    volumes:
+      - type: bind
+        source: ./config/config.yml
+        target: /app/config.yml
+        read_only: true
+
+  nginx:
+    depends_on:
+      - backend-fallback
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./docker/nginx
+    ports:
+      - 9080:80

@@ -1,0 +1,153 @@
+######################## 必填配置
+######################## 以下配置必须更改后才可运行程序
+
+### 网站名称
+name: xx树洞
+
+### 联系邮箱
+contact_email: contact@example.com
+
+### 检查邮箱是否合法的正则表达式。可参见https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
+email_check_regex: ^.*$
+
+### 图床域名。注意以"/"结尾
+img_base_url: https://img.example.com/
+
+### 图片文件存储文件夹。
+images_path: /path/to/images/folder
+
+### 是否是debug模式
+is_debug: true
+
+### 用户邮箱在数据库中会通过一个盐被单向加密。
+salt: CHANGE_ME!
+
+### Google reCAPTCHA v3密钥。需要前往reCAPTCHA官网获取。https://developers.google.com/recaptcha/docs/v3
+recaptcha_v3_private_key: YOUR_v3_KEY
+### Google reCAPTCHA v2密钥。reCAPTCHA v3不通过时，
+### 会使用v2的基于图片的人机识别验证。需要前往reCAPTCHA官网获取。https://developers.google.com/recaptcha/docs/display
+recaptcha_v2_private_key: YOUR_v2_KEY
+
+### SMTP配置
+smtp_host: smtp.example.com
+smtp_password: YOUR_PASSWORD
+smtp_username: noreply@example.com
+smtp_port: 465
+
+### 最少解密所需人数
+min_decryption_key_count: 3
+### 密钥保管员的PGP密钥列表
+# 注意：必须使用\n转义
+key_keepers_pgp_public_keys: [
+    "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n...\n-----END PGP PUBLIC KEY BLOCK-----",
+    "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n...\n-----END PGP PUBLIC KEY BLOCK-----",
+    "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n...\n-----END PGP PUBLIC KEY BLOCK-----",
+    "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n...\n-----END PGP PUBLIC KEY BLOCK-----",
+    "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n...\n-----END PGP PUBLIC KEY BLOCK-----",
+    "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n...\n-----END PGP PUBLIC KEY BLOCK-----"
+]
+
+######################## 可选配置
+######################## 以下配置不必要更改
+
+### 是否允许未注册用户浏览树洞
+allow_unregistered_access: true
+
+### IP地址库文件，见 https://dev.maxmind.com/geoip/geoip2/geolite2/
+mmdb_path: /usr/local/share/GeoIP/GeoLite2-City.mmdb
+### 允许注册的IP国家列表，需要保证mmdb_path的IP地址库可用
+allowed_register_countries:
+  - 美国
+  - 中国
+
+### 公告
+### TODO: (low priority)this announcement is not synchronous with config.txt of app
+announcement: This is dev server.
+
+### 图床CDN配置。这里使用了Dogecloud CDN(https://www.dogecloud.com/)。
+dcaccesskey: ""
+dcs3bucket: ""
+dcs3endpoint: ""
+dcsecretkey: ""
+
+### 不允许用户举报的树洞号列表
+disallow_report_pids:
+  - 118
+  - 1
+  - 4
+
+### 折叠检测的正则表达式
+fold_regex: ([A-Za-z0-9+/]{100})|(BEGIN PUBLIC KEY)
+### "性相关"折叠检测的正则表达式
+sex_related_regex: (porn(.*)hub|杜蕾斯)
+### 折叠tag列表
+reportable_tags:
+  - 性相关
+  - 政治相关
+  - NSFW
+  - 刷屏
+  - 重复内容
+  - 引战
+  - 未经证实的传闻
+  - 令人不适
+sendable_tags:
+  - 性相关
+  - 政治相关
+  - NSFW
+  - 刷屏
+  - 引战
+  - 未经证实的传闻
+  - 令人不适
+
+### 备用图床域名
+img_base_url_bak: https://img2.example.com/
+
+### 每个IP每天最多发送多少注册邮件
+max_email_per_ip_per_day: 10
+
+### 置顶的树洞号列表
+pin_pids: [ ]
+
+### reCAPTCHA v3人机认证的通过分数阈值
+recaptcha_threshold: 0.5
+
+### 当allow_unregistered_access=false时，允许未登录游客访问的IP白名单
+subnets_whitelist: [ ]
+
+### 最新树洞Web版的版本号。树洞Web版会通过检查此版本号自动更新。
+web_frontend_version: v0.0.0
+
+### 当服务宕机时的提示信息
+fallback_announcement: 系统正在维护升级，请稍后重试...
+
+### iOS apn2 push settings
+ios_push_auth_file: ./file.p12
+ios_push_auth_password: password
+
+### OR
+#ios_push_auth_file: ./file.p8
+#ios_push_key_id: 123
+#ios_push_team_id: 123
+
+### Only need to edit this config when [push service] and [other services] are at different servers
+push_internal_api_listen_address: 127.0.0.1:3009
+
+### 除了邮箱正则表达式之外，额外允许注册的邮箱白名单
+email_whitelist: []
+
+### 允许/help等管理员命令
+allow_admin_commands: true
+
+######################## 以下配置不可更改
+### redis服务配置
+redis_source: redis://redis:6379/0
+### MySQL服务配置
+sql_source: hollow:zTCCY5Kaz3Hy@tcp(mysql:3306)/hollow
+### 登录服务的监听端口
+services_api_listen_address: 0.0.0.0:8080
+### 内容服务的监听端口
+security_api_listen_address: 0.0.0.0:8081
+### 推送服务的监听端口
+push_api_listen_address: /tmp/treehollow/treehollow-push-api.sock
+### 服务宕机时的错误提示程序监听端口
+fallback_listen_address: 0.0.0.0:8082

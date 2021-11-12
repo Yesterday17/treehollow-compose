@@ -1,0 +1,6 @@
+[submodule "treehollow-backend"]
+	path = treehollow-backend
+	url = https://github.com/treehollow/treehollow-backend.git
+[submodule "webhole"]
+	path = webhole
+	url = https://github.com/treehollow/webhole.git
